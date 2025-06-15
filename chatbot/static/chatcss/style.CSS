@@ -1,0 +1,511 @@
+:root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --accent2: #7209b7;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+      --warning: #f72585;
+      --user-bubble: linear-gradient(135deg, var(--primary), var(--accent));
+      --bot-bubble: rgba(255, 255, 255, 0.9);
+      --gradient-start: #4361ee;
+      --gradient-end: #3a0ca3;
+      --text-light: #ffffff;
+      --text-dark: #2b2d42;
+      --card-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+      --nav-bg: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Navigation Bar - Modified Styles */
+.navbar {
+  width: 50%;
+  max-width: 400px; /* Changed from 1200px to 800px (or your desired length) */
+  background: linear-gradient(135deg, var(--primary), var(--accent2));
+  border-radius: 25px;
+  padding: 12px 30px;
+  margin-bottom: 10px;
+  box-shadow: 0 10px 30px rgba(67, 97, 238, 0.3);
+  backdrop-filter: blur(5px);
+  border: none;
+  position: sticky;
+  top: 20px;
+  z-index: 100;
+}
+
+/* Rest of the styles remain exactly the same */
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 15px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 10px 50px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background: white;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 50%;
+}
+    /* All other CSS remains exactly the same */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Particle background effect */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      animation: float-particle linear infinite;
+      filter: blur(1px);
+    }
+
+    @keyframes float-particle {
+      to { transform: translateY(-100vh) rotate(360deg); }
+    }
+
+    /* Generate particles with different sizes and speeds */
+    .particle:nth-child(1) {
+      width: 3px; height: 3px;
+      left: 20%; top: 100%;
+      animation-duration: 15s;
+      animation-delay: 0s;
+    }
+    .particle:nth-child(2) {
+      width: 5px; height: 5px;
+      left: 40%; top: 100%;
+      animation-duration: 20s;
+      animation-delay: 2s;
+    }
+    .particle:nth-child(3) {
+      width: 2px; height: 2px;
+      left: 60%; top: 100%;
+      animation-duration: 25s;
+      animation-delay: 1s;
+    }
+    .particle:nth-child(4) {
+      width: 4px; height: 4px;
+      left: 80%; top: 100%;
+      animation-duration: 18s;
+      animation-delay: 3s;
+    }
+
+    h1 {
+      color: white;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(to right, white, #f3f4f6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary), var(--accent2));
+      border-radius: 3px;
+      box-shadow: 0 2px 8px rgba(67, 97, 238, 0.3);
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 800px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 70vh;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      animation: fadeIn 0.5s ease-out;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .chat-container:hover {
+      transform: rotateY(1deg) rotateX(1deg);
+      transition: transform 0.5s ease;
+    }
+
+    #chat-box {
+      flex: 1;
+      padding: 25px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: rgba(248, 249, 250, 0.7);
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 14px 18px;
+      border-radius: 18px;
+      line-height: 1.5;
+      position: relative;
+      animation: fadeIn 0.3s ease-out;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      word-wrap: break-word;
+      font-size: 0.95rem;
+      backdrop-filter: blur(5px);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background: var(--user-bubble);
+      color: white;
+      border-top-right-radius: 5px;
+      border-bottom-left-radius: 18px;
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .bot-message {
+      align-self: flex-start;
+      background-color: var(--bot-bubble);
+      color: var(--dark);
+      border-top-left-radius: 5px;
+      border-bottom-right-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .message strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.75rem;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .user-message strong {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .input-container {
+      display: flex;
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.8);
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      position: relative;
+      backdrop-filter: blur(5px);
+    }
+
+    .input-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary), var(--accent2));
+      opacity: 0.5;
+    }
+
+    #user-input {
+      flex: 1;
+      padding: 14px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 30px;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s;
+      background-color: rgba(248, 249, 250, 0.7);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+      backdrop-filter: blur(5px);
+    }
+
+    #user-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    button {
+      padding: 14px 24px;
+      margin-left: 12px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, var(--primary), var(--accent2));
+      color: white;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(5px);
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--accent2), var(--primary));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+    }
+
+    button:hover::before {
+      opacity: 1;
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button span {
+      position: relative;
+      z-index: 2;
+    }
+
+    #speak-btn {
+      width: 50px;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--warning), #d91a66);
+      box-shadow: 0 4px 15px rgba(247, 37, 133, 0.4);
+    }
+
+    #speak-btn:hover {
+      box-shadow: 0 6px 20px rgba(247, 37, 133, 0.5);
+    }
+
+    .typing-indicator {
+      display: inline-flex;
+      padding: 12px 18px;
+      background-color: var(--bot-bubble);
+      border-radius: 18px;
+      border-top-left-radius: 5px;
+      margin-bottom: 15px;
+      align-self: flex-start;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    .typing-indicator span {
+      height: 10px;
+      width: 10px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      display: inline-block;
+      opacity: 0.4;
+    }
+
+    .typing-indicator span:nth-child(1) {
+      animation: bounce 1.2s infinite;
+    }
+    .typing-indicator span:nth-child(2) {
+      animation: bounce 1.2s infinite 0.2s;
+    }
+    .typing-indicator span:nth-child(3) {
+      animation: bounce 1.2s infinite 0.4s;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    /* Scrollbar styling */
+    #chat-box::-webkit-scrollbar {
+      width: 8px;
+    }
+    #chat-box::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 4px;
+    }
+    #chat-box::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 4px;
+    }
+    #chat-box::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    /* Microphone animation */
+    @keyframes pulse {
+      0% { 
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(247, 37, 133, 0.4);
+      }
+      70% { 
+        transform: scale(1.05);
+        box-shadow: 0 0 0 12px rgba(247, 37, 133, 0);
+      }
+      100% { 
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(247, 37, 133, 0);
+      }
+    }
+
+    .listening #speak-btn {
+      animation: pulse 1.5s infinite;
+    }
+
+    /* Message timestamp */
+    .message::after {
+      content: attr(data-time);
+      display: block;
+      font-size: 0.7rem;
+      color: rgba(0, 0, 0, 0.4);
+      margin-top: 6px;
+      text-align: right;
+    }
+
+    .user-message::after {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      body {
+        padding: 15px;
+      }
+      
+      .navbar {
+        padding: 12px 15px;
+        border-radius: 12px;
+      }
+      
+      .nav-links {
+        gap: 10px;
+      }
+      
+      .nav-links a {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+      }
+      
+      .chat-container {
+        height: 80vh;
+        border-radius: 15px;
+      }
+      
+      #chat-box {
+        padding: 18px;
+      }
+      
+      .message {
+        max-width: 85%;
+        padding: 12px 16px;
+      }
+      
+      .input-container {
+        padding: 15px;
+      }
+      
+      #user-input {
+        padding: 12px 16px;
+      }
+      
+      button {
+        padding: 12px 18px;
+      }
+      
+      #speak-btn {
+        width: 45px;
+        padding: 12px;
+      }
+    }
+
+    /* Floating chat elements */
+    .message {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .message:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .user-message:hover {
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+    }

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Voice Assistant Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'chatcss/style.css' %}">
+</head>
+<body>
+  <h1>Voice Assistant Chatbot</h1>
+  <nav class="navbar">
+  <ul class="nav-links">
+    <li><a href="/register/">Register</a></li>
+    <li><a href="/login/">Login</a></li>
+  </ul>
+</nav>
+
+  <div class="chat-container">
+    <div id="chat-box">
+      <div class="bot-message message">
+        <strong>Bot</strong>
+        Hello! I'm your voice assistant. How can I help you today?
+      </div>
+    </div>
+
+    <div class="input-container">
+      <input type="text" id="user-input" placeholder="Type or speak your message..." />
+      <button id="send-btn" onclick="sendMessage()">Send</button>
+      <button id="speak-btn" onclick="startRecognition()">🎤</button>
+    </div>
+  </div>
+
+  <script>
+    // Speech recognition setup
+    let recognition;
+    const speakBtn = document.getElementById('speak-btn');
+
+    function startRecognition() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert("Sorry, your browser doesn't support speech recognition.");
+        return;
+      }
+
+      speakBtn.classList.add('listening');
+      recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+
+      recognition.onresult = function (event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("user-input").value = transcript;
+        sendMessage();
+        speakBtn.classList.remove('listening');
+      };
+
+      recognition.onerror = function (event) {
+        console.error("Speech recognition error:", event.error);
+        speakBtn.classList.remove('listening');
+      };
+
+      recognition.onend = function() {
+        speakBtn.classList.remove('listening');
+      };
+    }
+
+    // Text to speech with female voice if available
+    function speak(text) {
+      if (!('speechSynthesis' in window)) {
+        console.warn("Speech synthesis not supported");
+        return;
+      }
+
+      const synth = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 1;
+      utterance.pitch = 1;
+
+      // To ensure voices are loaded, wait for onvoiceschanged if necessary
+      let voices = synth.getVoices();
+
+      if (voices.length === 0) {
+        // Voices might not be loaded yet, wait and retry
+        window.speechSynthesis.onvoiceschanged = () => {
+          voices = synth.getVoices();
+          setFemaleVoice();
+          synth.speak(utterance);
+        };
+      } else {
+        setFemaleVoice();
+        synth.speak(utterance);
+      }
+
+      function setFemaleVoice() {
+        // Find female voice heuristically
+        const femaleVoice = voices.find(voice =>
+          voice.lang.startsWith('en') &&
+          (voice.name.toLowerCase().includes('female') ||
+            voice.name.toLowerCase().includes('woman') ||
+            voice.name.toLowerCase().includes('susan') ||
+            voice.name.toLowerCase().includes('google us english') ||
+            voice.name.toLowerCase().includes('zira'))
+        );
+        if (femaleVoice) {
+          utterance.voice = femaleVoice;
+        }
+      }
+    }
+
+    // Send message to backend and handle response
+    function sendMessage() {
+      const userInputElem = document.getElementById("user-input");
+      const userMessage = userInputElem.value.trim();
+      const chatBox = document.getElementById("chat-box");
+
+      if (!userMessage) return;
+
+      chatBox.innerHTML += `
+        <div class="user-message message">
+          <strong>You</strong>
+          ${userMessage}
+        </div>`;
+      
+      userInputElem.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Show typing indicator
+      const typingIndicator = document.createElement('div');
+      typingIndicator.className = 'typing-indicator message';
+      typingIndicator.innerHTML = `
+        <strong>Bot</strong>
+        <span></span><span></span><span></span>
+      `;
+      chatBox.appendChild(typingIndicator);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      fetch(`/get_response/?message=${encodeURIComponent(userMessage)}`)
+        .then(response => response.json())
+        .then(data => {
+          // Remove typing indicator
+          chatBox.removeChild(typingIndicator);
+          
+          // Add bot response
+          const botResponse = data.response;
+          chatBox.innerHTML += `
+            <div class="bot-message message">
+              <strong>Bot</strong>
+              ${botResponse}
+            </div>`;
+          chatBox.scrollTop = chatBox.scrollHeight;
+          speak(botResponse);
+        })
+        .catch(err => {
+          console.error('Error fetching bot response:', err);
+          chatBox.removeChild(typingIndicator);
+          chatBox.innerHTML += `
+            <div class="bot-message message">
+              <strong>Bot</strong>
+              Sorry, there was an error processing your request.
+            </div>`;
+        });
+    }
+
+    // Allow sending message with Enter key
+    document.getElementById('user-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Voice Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'chatbot/style.css' %}">
+</head>
+<body>
+  <div class="welcome-container">
+    <div class="hero">
+      <h1>Meet Your AI Assistant</h1>
+      <p>Experience natural conversations with our voice-enabled chatbot that understands and responds to you</p>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🎙️</div>
+        <h3>Voice Control</h3>
+        <p>Speak naturally and get instant responses with our advanced speech recognition</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>Fast Responses</h3>
+        <p>Get accurate answers to your questions in real-time without waiting</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🤖</div>
+        <h3>Smart AI</h3>
+        <p>Powered by advanced natural language processing for human-like conversations</p>
+      </div>
+    </div>
+
+    <a href="{% url 'chatbot_home' %}" class="start-btn">Start Chatting Now</a>
+  </div>
+</body>
+</html>
